@@ -1,0 +1,70 @@
+{{>layouts/header}}
+
+<style>
+    .flex-container {
+        display: flex;
+        gap: 20px;
+    }
+    .left-table {
+        flex: 1;
+    }
+    .right-form {
+        flex: 1;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+</style>
+
+
+<div class="flex-container" style="font-family: 'Goorm Sans', sans-serif;">
+
+    <div class="left-table">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">MEMO</th>
+                <th scope="col">CASH</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#budgetList}}
+                <tr>
+                    <th>{{id}}</th>
+                    <td>{{memo}}</td>
+                    <td>{{cash}}</td>
+                </tr>
+            {{/budgetList}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="right-form">
+        <form action="/budgets/create" method="post">
+            <div class="mb-3">
+                <label for="memo" class="form-label">사용처 및 날짜</label>
+                <input type="text" class="form-control" name="memo">
+                <div id="memoExplain" class="form-text">언제, 어떤 일에 활용하셨나요?</div>
+            </div>
+            <div class="mb-3">
+                <label for="cash" class="form-label">지출 금액</label>
+                <input type="number" class="form-control" name="cash">
+                <div id="cashExplain" class="form-text">지출 금액을 작성해주세요.</div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <a href="/main" class="btn btn-primary">메인</a>
+                <a href="/budgets/list" class="btn btn-primary">수정/삭제</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+{{>layouts/footer}}

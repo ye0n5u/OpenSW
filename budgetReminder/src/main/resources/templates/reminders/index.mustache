@@ -1,0 +1,121 @@
+{{>layouts/header}}
+
+<style>
+    .flex-container {
+        display: flex;
+        gap: 20px;
+    }
+    .left-table {
+        flex: 1;
+    }
+    .right-form {
+        flex: 1;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    tr.checked {
+        color: gray;
+    }
+</style>
+
+<div class="flex-container" style="font-family: 'Goorm Sans', sans-serif;">
+    <div class="left-table">
+        <table class="table" id="todoTable">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">DATE</th>
+                <th scope="col">TODO</th>
+                <th scope="col">✔</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#reminderList}}
+                <tr data-id="{{id}}">
+                    <th>{{id}}</th>
+                    <td>{{date}}</td>
+                    <td>{{todo}}</td>
+                    <td><input type="checkbox" name="checkedIds" value="{{id}}"></td>
+                </tr>
+            {{/reminderList}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="right-form">
+        <form action="/reminders/create" method="post">
+            <div class="mb-3">
+                <label for="date" class="form-label">날짜</label>
+                <input type="date" class="form-control" name="date">
+                <div id="dateExplain" class="form-text">할 일을 등록할 날짜를 선택해주세요.</div>
+            </div>
+            <div class="mb-3">
+                <label for="todo" class="form-label">할 일을 적어주세요.</label>
+                <input type="text" class="form-control" name="todo">
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <a href="/main" class="btn btn-primary">메인</a>
+                <a href="/reminders/list" class="btn btn-primary">수정 및 삭제</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'checkedTodoIds';
+
+    function getCheckedIds() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function setCheckedIds(ids) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    }
+
+    function updateRowStyle(checkbox) {
+      const tr = checkbox.closest('tr');
+      if (checkbox.checked) {
+        tr.classList.add('checked');
+      } else {
+        tr.classList.remove('checked');
+      }
+    }
+
+    function restoreCheckboxState() {
+      const checkedIds = getCheckedIds();
+      const checkboxes = document.querySelectorAll('input[name="checkedIds"]');
+
+      checkboxes.forEach(chk => {
+        if (checkedIds.includes(chk.value)) {
+          chk.checked = true;
+          updateRowStyle(chk);
+        }
+
+        chk.addEventListener('change', () => {
+          let currentIds = getCheckedIds();
+
+          if (chk.checked) {
+            if (!currentIds.includes(chk.value)) {
+              currentIds.push(chk.value);
+            }
+          } else {
+            currentIds = currentIds.filter(id => id !== chk.value);
+          }
+          setCheckedIds(currentIds);
+          updateRowStyle(chk);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', restoreCheckboxState);
+</script>
+
+{{>layouts/footer}}

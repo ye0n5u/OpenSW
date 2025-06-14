@@ -1,0 +1,50 @@
+{{>layouts/header}}
+
+<style>
+    .main-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        background: linear-gradient(to right, #f7f7f0, #f5f4e4);
+        flex-direction: column;
+    }
+
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ffc60a;
+        margin-bottom: 40px;
+    }
+
+    .button-row {
+        display: flex;
+        gap: 30px;
+    }
+
+    .custom-btn {
+        font-family: 'Goorm Sans', sans-serif;
+        padding: 20px 40px;
+        font-size: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        width: 250px;
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+
+    .custom-btn:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="main-wrapper" style="font-family: 'Goorm Sans', sans-serif;">
+    <img src="/img/brLogo.png" style="width: 350px; height: auto;">
+    <div class="main-title">안녕하세요, 이용자님! 기다리고 있었습니다.</div>
+    <div class="button-row">
+        <a href="/budgets" class="btn btn-light custom-btn">가계부로</a>
+        <a href="/reminders" class="btn btn-light custom-btn">미리 알림으로</a>
+    </div>
+</div>
+
+{{>layouts/footer}}

@@ -1,0 +1,50 @@
+{{>layouts/header}}
+
+<style>
+    .flex-container {
+        display: flex;
+        gap: 20px;
+    }
+    .left-table {
+        flex: 1;
+    }
+    .right-form {
+        flex: 1;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 30px;
+    }
+</style>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">DATE</th>
+        <th scope="col">TODO</th>
+        <th scope="col">EDIT</th>
+        <th scope="col">DELETE</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#reminderList}}
+        <tr>
+            <th>{{id}}</th>
+            <td>{{date}}</td>
+            <td>{{todo}}</td>
+            <td><a href="/reminders/{{id}}/edit" class="btn btn-primary">수정</a>
+            <td><a href="/reminders/{{id}}/delete" class="btn btn-primary">삭제</a>
+        </tr>
+    {{/reminderList}}
+    </tbody>
+</table>
+<div class="button-group" >
+    <a href="/main" class="btn btn-primary">메인</a>
+    <a href="/reminders" class="btn btn-primary">뒤로</a>
+</div>
+
+{{>layouts/footer}}
